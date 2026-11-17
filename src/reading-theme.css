@@ -285,8 +285,8 @@ dialog li {
 }
 @media (max-width: 600px) {
   .room-card .room-art {
-    height: 210px;
-    max-height: 210px;
+    height: 195px;
+    max-height: 195px;
   }
   .room-top {
     min-height: 28px;

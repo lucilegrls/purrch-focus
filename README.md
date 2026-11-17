@@ -14,7 +14,7 @@ Start a short test session and open a distracting app to verify protection on yo
 
 ## Included
 
-- Pomodoro, count-up, pause/resume, short and long breaks, custom session lengths.
+- Focus sessions from 30 minutes to 3 hours, with 30m / 1h / 1h30 / 2h / 3h shortcuts on phones and computers. Default: 30 minutes; custom minute values in Settings. Count-up, pause/resume, short and long breaks.
 - Persistent timestamps: suspended apps recover the correct remaining time and credit a completed session once.
 - Fish for completed focus minutes (up to 60 per session), collectible gifts, tradeable paper for interrupted sessions.
 - Furniture shop; editable cat name, coat, chair and walls; three ready-made palettes; room image export.

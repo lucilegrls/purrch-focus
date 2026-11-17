@@ -29,9 +29,19 @@
   .timer-card {
     padding: 15px 20px 13px;
   }
-  .timer-caption,
-  .duration-options {
+  .timer-caption {
     display: none;
+  }
+  .duration-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .duration-options button {
+    min-width: 44px;
+    min-height: 33px;
+    font-size: 12px;
   }
   .timer-digits {
     font-size: 65px;

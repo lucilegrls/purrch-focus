@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buy,
+  clockText,
   elapsed,
   finish,
   initialState,
@@ -13,13 +14,35 @@ import {
   toggleDecor,
 } from "./model";
 describe("durable focus sessions", () => {
+  it("supports a three-hour session without finishing early after a reload", () => {
+    const state = initialState();
+    state.settings.focusMinutes = 180;
+    const s = parseState(JSON.stringify(start(state, "focus", 1000)));
+    expect(clockText(remaining(s.timer!, 1000))).toBe("3:00:00");
+    expect(tick(s, 1000 + 179 * 60000).timer).not.toBeNull();
+    const done = tick(s, 1000 + 180 * 60000);
+    expect(done.timer).toBeNull();
+    expect(done.sessions[0].seconds).toBe(10800);
+    expect(done.fish).toBe(90);
+  });
+  it("migrates old short presets while preserving an in-progress timer", () => {
+    const s = start(initialState(), "focus", 1000);
+    s.settings.focusMinutes = 25;
+    s.timer!.durationMs = 25 * 60000;
+    const restored = parseState(JSON.stringify(s));
+    expect(restored.settings.focusMinutes).toBe(30);
+    expect(restored.timer!.durationMs).toBe(25 * 60000);
+    expect(clockText(59 * 60000)).toBe("59:00");
+    s.settings.focusMinutes = 181;
+    expect(() => parseState(JSON.stringify(s))).toThrow();
+  });
   it("recovers a countdown after suspension and awards exactly once", () => {
     const s = start(initialState(), "focus", 1000);
     const done = tick(parseState(JSON.stringify(s)), 1000 + 30 * 60000);
     expect(done.timer).toBeNull();
-    expect(done.fish).toBe(55);
-    expect(done.sessions[0].seconds).toBe(1500);
-    expect(done.sessions[0].endedAt).toBe(1501000);
+    expect(done.fish).toBe(60);
+    expect(done.sessions[0].seconds).toBe(1800);
+    expect(done.sessions[0].endedAt).toBe(1801000);
     expect(tick(done, 99999999)).toBe(done);
     expect(finish(done, 99999999, true)).toBe(done);
   });
@@ -28,7 +51,7 @@ describe("durable focus sessions", () => {
     s = pause(s, 61000);
     expect(elapsed(s.timer!, 900000)).toBe(60000);
     s = pause(parseState(JSON.stringify(s)), 900000);
-    expect(remaining(s.timer!, 960000)).toBe(23 * 60000);
+    expect(remaining(s.timer!, 960000)).toBe(28 * 60000);
   });
   it("cannot earn completion rewards by ending a countdown early", () => {
     const s = finish(start(initialState(), "focus", 1000), 2000, true);
@@ -59,7 +82,7 @@ describe("durable focus sessions", () => {
     let s = initialState();
     for (let i = 0; i < 4; i++) {
       s = start(s, "focus", 1000);
-      s = tick(s, 1501000);
+      s = tick(s, 1801000);
     }
     s = start(s, "break", 2000000);
     expect(s.timer!.durationMs).toBe(15 * 60000);
@@ -79,7 +102,7 @@ describe("room economy and backups", () => {
     expect(toggleDecor(s, "rug").decor).not.toContain("rug");
   });
   it("trades a gift once", () => {
-    let s = tick(start(initialState(), "focus", 1000), 1501000);
+    let s = tick(start(initialState(), "focus", 1000), 1801000);
     const gift = s.gifts[0];
     const balance = s.fish;
     s = sell(s, gift.id);

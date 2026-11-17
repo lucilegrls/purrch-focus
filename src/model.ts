@@ -53,7 +53,7 @@ export const initialState = (): State => ({
   fish: 30,
   settings: {
     catName: "Miso",
-    focusMinutes: 25,
+    focusMinutes: 30,
     breakMinutes: 5,
     longBreakMinutes: 15,
     cycles: 4,
@@ -126,7 +126,7 @@ export function start(s: State, mode: Mode, now: number, task = ""): State {
       ? completed > 0 && completed % s.settings.cycles === 0
         ? s.settings.longBreakMinutes
         : s.settings.breakMinutes
-      : s.settings.focusMinutes;
+      : Math.max(30, Math.min(180, s.settings.focusMinutes));
   return {
     ...s,
     timer: {
@@ -245,7 +245,10 @@ export const dateKey = (time: number) => {
 };
 export const clockText = (ms: number) => {
   const n = Math.max(0, Math.ceil(ms / 1000));
-  return `${String(Math.floor(n / 60)).padStart(2, "0")}:${String(n % 60).padStart(2, "0")}`;
+  const seconds = String(n % 60).padStart(2, "0");
+  if (n >= 3600)
+    return `${Math.floor(n / 3600)}:${String(Math.floor(n / 60) % 60).padStart(2, "0")}:${seconds}`;
+  return `${String(Math.floor(n / 60)).padStart(2, "0")}:${seconds}`;
 };
 
 // Backups are untrusted input. Validate the full shape before replacing progress.
@@ -278,6 +281,8 @@ export function parseState(raw: string): State {
     !["reading", "drawn"].includes(p.roomStyle)
   )
     throw Error("Invalid settings in backup.");
+  // Preserve older saved progress while raising short focus presets to the new minimum.
+  p.focusMinutes = Math.max(30, Math.round(p.focusMinutes));
   if (
     !Array.isArray(s.tasks) ||
     s.tasks.length > 1000 ||

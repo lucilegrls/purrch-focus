@@ -33,6 +33,9 @@ public class FocusGuardInstrumentedTest {
    while(!FocusGuardService.connected&&SystemClock.elapsedRealtime()<limit) SystemClock.sleep(100);
    assertTrue("Accessibility service must connect",FocusGuardService.connected);
    // Exercise the real WebView -> Capacitor -> native preferences path, not only the policy.
+   assertNotNull("Three-hour preset must be available",device.wait(Until.findObject(By.text("3h")),10000));
+   device.findObject(By.text("3h")).click();
+   assertNotNull("Long sessions should show hours",device.wait(Until.findObject(By.text("3:00:00")),5000));
    assertNotNull("Start control must be available",device.wait(Until.findObject(By.text("Let’s focus")),10000));
    device.waitForIdle();
    device.takeScreenshot(new File(context.getExternalFilesDir(null),"purrch-android.png"));
@@ -41,6 +44,7 @@ public class FocusGuardInstrumentedTest {
    while(!prefs.getBoolean("active",false)&&SystemClock.elapsedRealtime()<limit) SystemClock.sleep(100);
    assertTrue("Starting in the app must enable native protection",prefs.getBoolean("active",false));
    assertTrue("The app must save a future countdown deadline",prefs.getLong("endAt",0)>System.currentTimeMillis());
+   assertTrue("Three-hour protection must reach the native service",prefs.getLong("endAt",0)>System.currentTimeMillis()+179L*60000);
    assertNotNull(device.wait(Until.findObject(By.text("Pause")),5000));
    device.findObject(By.text("Pause")).click();
    limit=SystemClock.elapsedRealtime()+5000;

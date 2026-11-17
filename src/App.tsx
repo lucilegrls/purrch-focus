@@ -512,12 +512,14 @@ export default function App() {
                         ? "Rest is part of the rhythm."
                         : "Settle in. We’ll do this together."}
                   </p>
-                  <div className="progress-track">
-                    <div style={{ width: `${progress}%` }} />
-                  </div>
+                  {active && (
+                    <div className="progress-track">
+                      <div style={{ width: `${progress}%` }} />
+                    </div>
+                  )}
                   {!active && mode === "focus" && (
                     <div className="duration-options">
-                      {[15, 25, 45, 60].map((n) => (
+                      {[30, 60, 90, 120, 180].map((n) => (
                         <button
                           key={n}
                           className={
@@ -525,11 +527,14 @@ export default function App() {
                           }
                           onClick={() => setSettings({ focusMinutes: n })}
                         >
-                          {n}
-                          <span>m</span>
+                          {n < 60
+                            ? `${n}m`
+                            : `${Math.floor(n / 60)}h${n % 60 ? n % 60 : ""}`}
                         </button>
                       ))}
-                      {![15, 25, 45, 60].includes(s.settings.focusMinutes) && (
+                      {![30, 60, 90, 120, 180].includes(
+                        s.settings.focusMinutes,
+                      ) && (
                         <span className="custom-duration">
                           {s.settings.focusMinutes}m
                         </span>
@@ -1036,22 +1041,39 @@ export default function App() {
             <h3>Your focus rhythm</h3>
             <div className="number-grid">
               {[
-                { key: "focusMinutes", label: "Focus (minutes)", max: 180 },
-                { key: "breakMinutes", label: "Short break", max: 60 },
-                { key: "longBreakMinutes", label: "Long break", max: 120 },
-                { key: "cycles", label: "Sessions per cycle", max: 12 },
-              ].map(({ key, label, max }) => (
+                {
+                  key: "focusMinutes",
+                  label: "Focus (30–180 minutes)",
+                  min: 30,
+                  max: 180,
+                },
+                { key: "breakMinutes", label: "Short break", min: 1, max: 60 },
+                {
+                  key: "longBreakMinutes",
+                  label: "Long break",
+                  min: 1,
+                  max: 120,
+                },
+                { key: "cycles", label: "Sessions per cycle", min: 1, max: 12 },
+              ].map(({ key, label, min, max }) => (
                 <label key={key}>
                   {label}
                   <input
                     type="number"
-                    min="1"
+                    min={min}
                     max={max}
                     disabled={active}
-                    value={s.settings[key as "focusMinutes"]}
-                    onChange={(e) => {
-                      const n = Math.round(Number(e.target.value));
-                      if (n >= 1 && n <= max) setSettings({ [key]: n });
+                    defaultValue={s.settings[key as "focusMinutes"]}
+                    onBlur={(e) => {
+                      const parsed = Math.round(Number(e.target.value));
+                      const n = Number.isFinite(parsed)
+                        ? Math.max(min, Math.min(max, parsed))
+                        : min;
+                      e.currentTarget.value = String(n);
+                      setSettings({ [key]: n });
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.currentTarget.blur();
                     }}
                   />
                 </label>
