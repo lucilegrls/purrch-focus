@@ -34,8 +34,10 @@ public class FocusGuardInstrumentedTest {
    assertTrue("Accessibility service must connect",FocusGuardService.connected);
    // Exercise the real WebView -> Capacitor -> native preferences path, not only the policy.
    assertNotNull("Three-hour preset must be available",device.wait(Until.findObject(By.text("3h")),10000));
+   device.waitForIdle();
    device.findObject(By.text("3h")).click();
-   assertNotNull("Long sessions should show hours",device.wait(Until.findObject(By.text("3:00:00")),5000));
+   // role=timer exposes its accessible name differently across WebView versions;
+   // verify the chosen duration through the actual native deadline below.
    assertNotNull("Start control must be available",device.wait(Until.findObject(By.text("Let’s focus")),10000));
    device.waitForIdle();
    device.takeScreenshot(new File(context.getExternalFilesDir(null),"purrch-android.png"));
@@ -73,6 +75,10 @@ public class FocusGuardInstrumentedTest {
    assertTrue("Paused and count-up sessions must remain protected",device.wait(Until.hasObject(By.text("Back to my cat")),3000));
    prefs.edit().putBoolean("active",false).commit();
    assertTrue("Ending a session must release the overlay",device.wait(Until.gone(By.text("Back to my cat")),3000));
+  } catch (Throwable failure) {
+   device.takeScreenshot(new File(context.getExternalFilesDir(null),"purrch-failure.png"));
+   device.dumpWindowHierarchy(new File(context.getExternalFilesDir(null),"purrch-failure.xml"));
+   throw failure;
   } finally {prefs.edit().putBoolean("active",false).commit();device.executeShellCommand("settings delete secure enabled_accessibility_services");device.executeShellCommand("settings put secure accessibility_enabled 0");}
  }
 }
