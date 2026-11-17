@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="focus_guard_description">Optional focus protection. Purrch checks the name of the app opening and covers distracting apps during your focus session. It does not read screen contents or send activity to a server. Phone calls, home, keyboard, settings, and system controls remain available. You can turn this off at any time.</string>
+    <string name="app_name">Purrch</string>
+    <string name="title_activity_main">Purrch</string>
+    <string name="package_name">app.purrch.focus</string>
+    <string name="custom_url_scheme">app.purrch.focus</string>
+</resources>

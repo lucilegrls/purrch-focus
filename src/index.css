@@ -1,0 +1,88 @@
+@import "@fontsource-variable/nunito";
+@import "@fontsource-variable/lora";
+:root {
+  font-family: "Nunito Variable", system-ui, sans-serif;
+  color: #3e493f;
+  background: #faf8f3;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 500;
+  font-size: 15px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+  color: inherit;
+  touch-action: manipulation;
+  min-height: 42px;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+a {
+  color: inherit;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #a96544;
+  outline-offset: 4px;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+h1,
+h2 {
+  font-family: "Lora Variable", Georgia, serif;
+  font-weight: 500;
+}
+h3 {
+  font-weight: 750;
+}
+button svg {
+  flex-shrink: 0;
+}
+::selection {
+  background: #d5e3cc;
+}
+input,
+select {
+  min-height: 44px;
+}
+dialog::backdrop {
+  background: #293c32a6;
+  backdrop-filter: blur(5px);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

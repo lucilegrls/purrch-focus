@@ -1,0 +1,64 @@
+/* Keep the cat, timer and primary action together on a phone screen. */
+@media (max-width: 600px) {
+  .workspace main {
+    padding-top: 18px;
+  }
+  .page-heading .eyebrow,
+  .page-heading p {
+    display: none;
+  }
+  .page-heading h1 {
+    font-size: 24px;
+    margin: 0;
+    line-height: 1.4;
+  }
+  .page-heading {
+    margin-bottom: 17px;
+  }
+  .room-card .room-art {
+    height: 195px;
+    max-height: 195px;
+  }
+  .room-top {
+    min-height: 31px;
+    padding-top: 0;
+  }
+  .room-bottom {
+    padding: 7px 13px;
+  }
+  .timer-card {
+    padding: 15px 20px 13px;
+  }
+  .timer-caption,
+  .duration-options {
+    display: none;
+  }
+  .timer-digits {
+    font-size: 65px;
+    margin-top: 12px;
+    line-height: 1.1;
+  }
+  .timer-message {
+    margin: 6px 0 12px;
+    font-size: 10px;
+  }
+  .progress-track {
+    margin-bottom: 12px;
+  }
+  .task-select {
+    margin-bottom: 11px;
+  }
+  .task-select select {
+    min-height: 36px;
+  }
+  .protection {
+    min-height: 35px;
+    font-size: 9px;
+  }
+  .session-dots {
+    padding-top: 9px;
+  }
+  .session-dots small {
+    font-size: 8px;
+  }
+}
