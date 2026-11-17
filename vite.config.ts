@@ -15,7 +15,7 @@ export default defineConfig({
         const files = (await readdir("dist", { recursive: true }))
           .filter(
             (x) =>
-              /\.(html|css|js|svg|png|woff2|webmanifest|txt)$/.test(x) &&
+              /\.(html|css|js|svg|png|webp|woff2|webmanifest|txt)$/.test(x) &&
               x !== "sw.js",
           )
           .map((x) => "./" + x.replaceAll("\\", "/"));

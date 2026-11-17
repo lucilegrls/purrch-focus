@@ -64,6 +64,8 @@ import {
 import { playAudio, setVolume, stopAudio } from "./audio";
 import "./App.css";
 import "./mobile.css";
+import "./reading-theme.css";
+import { exportableSvg } from "./wallpaper";
 
 function Modal({
   title,
@@ -170,8 +172,14 @@ export default function App() {
       .then(async () => {
         await save(snapshot);
         await syncGuard(snapshot);
-        await syncNotification(snapshot);
         setFailure("");
+        try {
+          await syncNotification(snapshot);
+        } catch {
+          setToast(
+            "Session reminders could not be scheduled. Check notification and alarm permissions in Settings.",
+          );
+        }
       })
       .catch(() =>
         setFailure(
@@ -664,6 +672,21 @@ export default function App() {
                 <div className="custom-controls">
                   <h2>Your kind of cozy</h2>
                   <label className="field-label">
+                    Room style
+                    <select
+                      value={s.settings.roomStyle}
+                      onChange={(e) =>
+                        setSettings({
+                          roomStyle: e.target
+                            .value as State["settings"]["roomStyle"],
+                        })
+                      }
+                    >
+                      <option value="reading">Painted reading nook</option>
+                      <option value="drawn">Simple drawn room</option>
+                    </select>
+                  </label>
+                  <label className="field-label">
                     Your cat’s name
                     <input
                       maxLength={30}
@@ -673,9 +696,9 @@ export default function App() {
                   </label>
                   <div className="color-controls">
                     {[
-                      { key: "wall", label: "Walls" },
-                      { key: "chair", label: "Chair" },
-                      { key: "fur", label: "Cat coat" },
+                      { key: "wall", label: "Room tint" },
+                      { key: "chair", label: "Chair tint" },
+                      { key: "fur", label: "Coat tint" },
                     ].map(({ key, label }) => (
                       <label key={key}>
                         <input
@@ -694,38 +717,38 @@ export default function App() {
                     <button
                       onClick={() =>
                         setSettings({
-                          wall: "#f1dfcb",
-                          chair: "#789b89",
-                          fur: "#d99b62",
+                          wall: "#eadbc5",
+                          chair: "#d1b89b",
+                          fur: "#b4a18a",
                         })
                       }
                     >
-                      <span style={{ background: "#789b89" }} />
-                      Sunday morning
+                      <span style={{ background: "#bd9469" }} />
+                      Amber evening
                     </button>
                     <button
                       onClick={() =>
                         setSettings({
-                          wall: "#dedbec",
-                          chair: "#9390b5",
-                          fur: "#aaa9ab",
+                          wall: "#b2b3c6",
+                          chair: "#a3a4b4",
+                          fur: "#9c9c9c",
                         })
                       }
                     >
                       <span style={{ background: "#9390b5" }} />
-                      Lilac daydream
+                      Quiet dusk
                     </button>
                     <button
                       onClick={() =>
                         setSettings({
-                          wall: "#ead7cc",
-                          chair: "#bb7e6d",
-                          fur: "#f0d8b1",
+                          wall: "#f1e7d4",
+                          chair: "#e5ddc9",
+                          fur: "#d2b392",
                         })
                       }
                     >
-                      <span style={{ background: "#bb7e6d" }} />
-                      Peach tea
+                      <span style={{ background: "#e2ceac" }} />
+                      Soft daylight
                     </button>
                   </div>
                   <button
@@ -1373,7 +1396,7 @@ export default function App() {
               try {
                 const svg = document.querySelector("dialog .room-art");
                 if (!svg) throw Error();
-                const xml = new XMLSerializer().serializeToString(svg);
+                const xml = await exportableSvg(svg);
                 const url = URL.createObjectURL(
                   new Blob([xml], { type: "image/svg+xml" }),
                 );
@@ -1382,8 +1405,8 @@ export default function App() {
                   try {
                     const c = document.createElement("canvas");
                     c.width = 1440;
-                    c.height = 1200;
-                    c.getContext("2d")!.drawImage(img, 0, 0, 1440, 1200);
+                    c.height = s.settings.roomStyle === "reading" ? 1080 : 1200;
+                    c.getContext("2d")!.drawImage(img, 0, 0, c.width, c.height);
                     URL.revokeObjectURL(url);
                     if (native) {
                       await FocusGuard.exportImage({

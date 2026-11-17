@@ -3,10 +3,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.app.UiAutomation;
 import android.os.SystemClock;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.Configurator;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 import org.junit.Test;
@@ -18,6 +20,7 @@ import static org.junit.Assert.*;
 public class FocusGuardInstrumentedTest {
  @Test public void realAccessibilityOverlayBlocksAndReleases() throws Exception {
   Context context=InstrumentationRegistry.getInstrumentation().getTargetContext();
+  Configurator.getInstance().setUiAutomationFlags(UiAutomation.FLAG_DONT_SUPPRESS_ACCESSIBILITY_SERVICES);
   UiDevice device=UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
   SharedPreferences prefs=context.getSharedPreferences("focus_guard",0);
   try {

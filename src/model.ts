@@ -34,6 +34,7 @@ export type Settings = {
   fur: string;
   sound: "off" | "rain" | "purr";
   volume: number;
+  roomStyle: "reading" | "drawn";
 };
 export type State = {
   version: 1;
@@ -57,11 +58,12 @@ export const initialState = (): State => ({
     longBreakMinutes: 15,
     cycles: 4,
     blocking: true,
-    wall: "#f1dfcb",
-    chair: "#789b89",
-    fur: "#d99b62",
+    wall: "#eadbc5",
+    chair: "#d1b89b",
+    fur: "#b4a18a",
     sound: "off",
     volume: 0.3,
+    roomStyle: "reading",
   },
   timer: null,
   tasks: [],
@@ -259,6 +261,7 @@ export function parseState(raw: string): State {
   if (!s || s.version !== 1 || !num(s.fish, 0, 1e9) || !s.settings)
     throw Error("This is not a Purrch backup.");
   const p = s.settings;
+  if (p.roomStyle === undefined) p.roomStyle = "reading";
   if (
     !str(p.catName, 30) ||
     !num(p.focusMinutes, 1, 180) ||
@@ -271,7 +274,8 @@ export function parseState(raw: string): State {
     !color(p.chair) ||
     !color(p.fur) ||
     !["off", "rain", "purr"].includes(p.sound) ||
-    !num(p.volume, 0, 1)
+    !num(p.volume, 0, 1) ||
+    !["reading", "drawn"].includes(p.roomStyle)
   )
     throw Error("Invalid settings in backup.");
   if (

@@ -1,0 +1,306 @@
+/* Reading-nook direction: warm paper, walnut, linen, and quiet olive accents. */
+:root {
+  background: #f7f2e9;
+  color: #554738;
+}
+.topbar {
+  border-color: #e7ddce;
+}
+.brand {
+  color: #554731;
+}
+.brand-icon {
+  background: #eee3cf;
+  color: #8b7451;
+}
+.brand-dot {
+  color: #bd9065;
+}
+.navigation > button {
+  color: #95846f;
+}
+.navigation > button.selected {
+  background: #eadeca;
+  color: #745e3e;
+}
+.navigation > button:hover {
+  background: #efe5d5;
+}
+.nav-note {
+  color: #a9977d;
+}
+.page-heading h1 {
+  color: #5d4935;
+}
+.page-heading p {
+  color: #9a8975;
+}
+.eyebrow {
+  color: #a28c6c;
+}
+.eyebrow > span {
+  background: #b69562;
+}
+.date-label {
+  color: #aa916d;
+}
+.room-card {
+  background: #e5d2b4;
+  border-color: #d8c3a3;
+  border-radius: 18px;
+}
+.room-top {
+  color: #8b704d;
+  background: #e8d6b9;
+}
+.room-bottom {
+  background: #e9d9bd;
+  color: #8b7454;
+  border-color: #d9c4a2;
+}
+.sound-button {
+  background: #f5ead8;
+  color: #8f7553;
+}
+.timer-card {
+  background: #fffcf5;
+  border-color: #e6ddcb;
+  border-radius: 18px;
+}
+.segmented {
+  background: #f0eadd;
+}
+.segmented button {
+  color: #9a876d;
+}
+.segmented button.selected {
+  background: #fffdf7;
+  color: #806646;
+}
+.timer-digits {
+  color: #68583e;
+}
+.timer-caption {
+  color: #ad9674;
+}
+.timer-message {
+  color: #a08e76;
+}
+.progress-track {
+  background: #eee6d6;
+}
+.progress-track > div {
+  background: #b59364;
+}
+.duration-options button {
+  color: #b09b80;
+}
+.duration-options button.selected {
+  background: #efe5d1;
+  color: #8e7047;
+  border-color: #e0cfb1;
+}
+.task-select {
+  border-color: #e9dfcd;
+  color: #b09b7c;
+}
+.task-select select {
+  color: #9d886c;
+}
+.primary {
+  background: #94794f;
+  box-shadow: 0 3px 0 #69543524;
+  color: #fffaf0;
+}
+.primary:hover {
+  background: #7e633f;
+}
+.secondary {
+  background: #f1eadb;
+  border-color: #e1d4bd;
+  color: #8b724e;
+}
+.secondary:hover {
+  background: #e8dcc7;
+}
+.protection {
+  color: #a08f72;
+}
+.session-dots span {
+  background: #e5dcc8;
+}
+.session-dots span.filled {
+  background: #ad9467;
+}
+.session-dots small {
+  color: #b09d7e;
+}
+.today-card {
+  background: #f3eddf;
+  border-color: #e7dcc8;
+}
+.small-card-icon {
+  background: #eadfc7;
+  color: #ac9368;
+}
+.today-card strong,
+.today-card b {
+  color: #92784e;
+}
+.today-card p {
+  color: #ac9879;
+}
+.gift-card {
+  background: #f0e4d1;
+  border-color: #e3cfad;
+  color: #91744b;
+}
+.gift-card:hover {
+  background: #e9d8bd;
+}
+.gift-card small {
+  color: #ac9473;
+}
+.quiet-note {
+  color: #b39f80;
+}
+footer {
+  color: #bca98b;
+}
+.custom-room,
+.shop-item,
+.journal-panel,
+.tasks-panel {
+  background: #fffcf5;
+  border-color: #e7dcc8;
+}
+.custom-controls h2,
+.shop-panel h2,
+.journal-panel h2 {
+  color: #7b6342;
+}
+.palette-presets button,
+.field-label input,
+.field-label select,
+.number-grid input,
+.task-form input {
+  background: #fcf8ee;
+  border-color: #e3d7c2;
+  color: #806c4f;
+}
+.palette-presets button {
+  color: #927851;
+}
+.shop-art {
+  background: #e4e6d5;
+  color: #8b9272;
+}
+.stats-grid > div {
+  background: #efe6d3;
+  border-color: #e2d4b7;
+  color: #b09668;
+}
+.stats-grid strong {
+  color: #8a7046;
+}
+.stats-grid span {
+  color: #ae9775;
+}
+.bar-slot > div {
+  background: #c6ad83;
+}
+.bar-chart > div:last-child .bar-slot > div {
+  background: #a58a5b;
+}
+.empty-state h3 {
+  color: #927955;
+}
+.empty-state {
+  color: #b7a385;
+}
+.timeline-icon.complete {
+  background: #e9e7d6;
+  color: #979977;
+}
+dialog {
+  background: #fbf6eb;
+  border-color: #e5d7bf;
+  color: #806b4c;
+}
+dialog h2 {
+  color: #755c3e;
+}
+dialog p,
+dialog li {
+  color: #9d896d;
+}
+.info-box {
+  background: #eee5d2;
+  border-color: #e1d2b6;
+}
+.modal-hero-icon {
+  background: #eae4ce;
+  color: #a49264;
+}
+.link-button {
+  color: #a1875b;
+}
+.settings-section {
+  border-color: #e7dbc5;
+}
+.toast {
+  background: #7e6847;
+}
+.toggle-row input,
+.range-label input {
+  accent-color: #a88c5a;
+}
+.painted-cat {
+  transform-origin: 210px 254px;
+  animation: painted-breath 6s ease-in-out infinite;
+}
+.is-focused .painted-cat {
+  animation-duration: 4.8s;
+}
+.candle-flame {
+  transform-origin: 331px 290px;
+  animation: candle 4s ease-in-out infinite;
+}
+@keyframes painted-breath {
+  50% {
+    transform: scale(1.006, 1.015);
+  }
+}
+@keyframes candle {
+  50% {
+    opacity: 0.8;
+    transform: scaleX(0.85);
+  }
+}
+@media (max-width: 850px) {
+  .navigation {
+    background: #f8f2e6f5;
+    border-color: #e5d7bf;
+  }
+}
+@media (max-width: 600px) {
+  .room-card .room-art {
+    height: 210px;
+    max-height: 210px;
+  }
+  .room-top {
+    min-height: 28px;
+  }
+  .room-bottom {
+    padding: 6px 13px;
+  }
+  .timer-card {
+    padding-top: 13px;
+  }
+  .timer-digits {
+    font-size: 63px;
+  }
+  .page-heading h1 {
+    font-size: 23px;
+  }
+}

@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -106,23 +107,28 @@ public class FocusGuardService extends AccessibilityService implements SharedPre
     private void showOverlay() {
         overlay = new LinearLayout(this);
         overlay.setOrientation(LinearLayout.VERTICAL); overlay.setGravity(Gravity.CENTER);
-        overlay.setPadding(38, 60, 38, 60); overlay.setBackgroundColor(Color.rgb(250,248,243));
+        overlay.setPadding(38, 60, 38, 60); overlay.setBackgroundColor(Color.rgb(247,242,233));
         overlay.setImportantForAccessibility(android.view.View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-        overlay.addView(text("🐈", 72, Color.rgb(126,142,105)));
-        TextView title = text("Your little moment matters.", 28, Color.rgb(72,91,61));
+        ImageView cat = new ImageView(this);
+        cat.setImageResource(R.drawable.sleeping_tabby);
+        cat.setContentDescription("Your watercolor tabby is resting");
+        cat.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        float density = getResources().getDisplayMetrics().density;
+        overlay.addView(cat, new LinearLayout.LayoutParams((int)(230*density), (int)(130*density)));
+        TextView title = text("Your little moment matters.", 28, Color.rgb(93,73,53));
         title.setTypeface(Typeface.create("serif", Typeface.NORMAL)); overlay.addView(title);
-        overlay.addView(text(prefs.getString("catName", "Miso") + " is saving your seat.\nThis app can wait a little.", 17, Color.rgb(119,129,105)));
-        timeLabel = text("", 16, Color.rgb(119,129,105)); overlay.addView(timeLabel);
+        overlay.addView(text(prefs.getString("catName", "Miso") + " is saving your seat.\nThis app can wait a little.", 17, Color.rgb(128,107,76)));
+        timeLabel = text("", 16, Color.rgb(128,107,76)); overlay.addView(timeLabel);
         Button back = new Button(this); back.setText("Back to my cat"); back.setAllCaps(false);
         back.setTextColor(Color.WHITE); back.setTextSize(16);
-        GradientDrawable background = new GradientDrawable(); background.setColor(Color.rgb(109,130,87)); background.setCornerRadius(30); back.setBackground(background);
+        GradientDrawable background = new GradientDrawable(); background.setColor(Color.rgb(148,121,79)); background.setCornerRadius(30); back.setBackground(background);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 64*getResources().getDisplayMetrics().densityDpi/160);
         params.setMargins(10, 25, 10, 15); overlay.addView(back, params);
         back.setOnClickListener(v -> {
             foreground = getPackageName(); hideOverlay();
             startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
         });
-        overlay.addView(text("Phone calls and essential Android controls remain available.", 12, Color.rgb(145,150,132)));
+        overlay.addView(text("Phone calls and essential Android controls remain available.", 12, Color.rgb(139,116,84)));
         WindowManager.LayoutParams layout = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,

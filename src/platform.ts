@@ -45,6 +45,11 @@ export async function syncNotification(s: State) {
   if (permission.display !== "granted") return;
   const delay = t.durationMs - elapsed(t, Date.now());
   if (delay <= 0) return;
+  await LocalNotifications.createChannel({
+    id: "focus",
+    name: "Focus timer",
+    importance: 4,
+  });
   await LocalNotifications.schedule({
     notifications: [
       {

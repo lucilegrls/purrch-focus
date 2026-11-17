@@ -36,7 +36,7 @@ npm test
 npm run lint
 npm run android:sync
 cd android
-./gradlew testDebugUnitTest assembleDebug
+./gradlew :app:testDebugUnitTest :app:assembleDebug
 ```
 
 GitHub Actions builds a signed release APK, runs timer/economy/backup tests and Android policy tests, and exercises the accessibility overlay on an Android 15 emulator before publishing the preview. Public-repository standard GitHub-hosted runners and GitHub Pages are used. No paid cloud backend is needed.
@@ -45,10 +45,10 @@ Release signing uses `ANDROID_KEYSTORE_BASE64` and `ANDROID_KEYSTORE_PASSWORD` r
 
 ## Customize
 
-Change colors and the cat name in **My room**. The original vector artwork lives in `src/Room.tsx`, screen layout in `src/App.tsx`, styling in `src/App.css`, and reward rules in `src/model.ts`. No design subscription is required. SVG artwork is editable as source; PNG icons regenerate with `node scripts/icons.mjs`.
+Change colors and the cat name in **My room**. The default painted reading nook has a separate watercolor tabby with awake and sleeping states. Room, chair and coat controls apply subtle tints; choose Simple drawn room for flat, fully recolorable shapes. The smaller cat is positioned independently on the cushion. Original generated PNGs and exact prompts are in `artwork/`; optimized WebP layers are in `src/assets/painted/`. The references themselves are not redistributed. Composition lives in `src/PaintedRoom.tsx`, the alternative vector room in `src/ClassicRoom.tsx`, screen layout in `src/App.tsx`, warm styling in `src/reading-theme.css`, and reward rules in `src/model.ts`. Icons regenerate with `node scripts/icons.mjs`. No design subscription is required.
 
 ## Privacy
 
 Progress is stored in app-private preferences (browser local storage for the preview). The accessibility service listens only to foreground window package names; `canRetrieveWindowContent=false`. It never retrieves message text, view trees, passwords or keystrokes. It does not store app usage history or send data to a server. Android cloud backup is disabled. Explicit exports use Android’s share sheet. Clearing storage or uninstalling deletes progress, so export first.
 
-Fonts (Nunito and Lora) are bundled from Fontsource under the SIL Open Font License. Icons use Lucide (ISC). Application source and original SVG artwork are MIT licensed. See `THIRD_PARTY_NOTICES.md`.
+Fonts (Nunito and Lora) are bundled from Fontsource under the SIL Open Font License. Icons use Lucide (ISC). Application source and project artwork are provided under the repository MIT license; generated art is identified in the notices. See `THIRD_PARTY_NOTICES.md`.
