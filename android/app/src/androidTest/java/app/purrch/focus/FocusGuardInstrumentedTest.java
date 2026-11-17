@@ -11,6 +11,7 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.Until;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import java.io.File;
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
@@ -21,6 +22,9 @@ public class FocusGuardInstrumentedTest {
   SharedPreferences prefs=context.getSharedPreferences("focus_guard",0);
   try {
    device.wakeUp();device.executeShellCommand("wm dismiss-keyguard");
+   context.startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+   assertTrue("Native WebView must render the focus screen",device.wait(Until.hasObject(By.textContains("A little focus")),15000));
+   device.takeScreenshot(new File(context.getExternalFilesDir(null),"purrch-android.png"));
    device.executeShellCommand("settings put secure enabled_accessibility_services app.purrch.focus/app.purrch.focus.FocusGuardService");
    device.executeShellCommand("settings put secure accessibility_enabled 1");
    long limit=SystemClock.elapsedRealtime()+15000;
@@ -30,6 +34,7 @@ public class FocusGuardInstrumentedTest {
    prefs.edit().putBoolean("active",true).putLong("endAt",System.currentTimeMillis()+8000).commit();
    context.startActivity(distraction);
    assertTrue("Other apps must be covered",device.wait(Until.hasObject(By.text("Back to my cat")),5000));
+   device.takeScreenshot(new File(context.getExternalFilesDir(null),"purrch-blocker.png"));
    device.pressHome();
    assertTrue("Home must remain accessible",device.wait(Until.gone(By.text("Back to my cat")),3000));
    context.startActivity(distraction);

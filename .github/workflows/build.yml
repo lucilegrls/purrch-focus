@@ -25,6 +25,7 @@ jobs:
       - uses: android-actions/setup-android@v3
         with:
           packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
+      - uses: gradle/actions/setup-gradle@v4
       - run: npm ci
       - run: npm test && npm run lint && npm run build
       - run: npx cap sync android
@@ -43,6 +44,7 @@ jobs:
           chmod +x android/gradlew
           cd android
           ./gradlew testDebugUnitTest assembleRelease assembleDebug assembleDebugAndroidTest --no-daemon
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs app/build/outputs/apk/release/app-release.apk
       - name: Prepare installable APK
         run: cp android/app/build/outputs/apk/release/app-release.apk purrch.apk
       - uses: actions/upload-artifact@v4
@@ -86,12 +88,15 @@ jobs:
             adb install apks/androidTest/debug/app-debug-androidTest.apk
             adb shell am instrument -w -e class app.purrch.focus.FocusGuardInstrumentedTest app.purrch.focus.test/androidx.test.runner.AndroidJUnitRunner > instrumentation.txt
             cat instrumentation.txt
+            adb pull /sdcard/Android/data/app.purrch.focus/files/. android-screenshots || true
             grep -q 'OK (1 test)' instrumentation.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: android-device-test-result
-          path: instrumentation.txt
+          path: |
+            instrumentation.txt
+            android-screenshots/
   publish-preview:
     needs: [build, android-device-test]
     runs-on: ubuntu-latest
