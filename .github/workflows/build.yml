@@ -43,7 +43,7 @@ jobs:
         run: |
           chmod +x android/gradlew
           cd android
-          ./gradlew testDebugUnitTest assembleRelease assembleDebug assembleDebugAndroidTest --no-daemon
+          ./gradlew :app:testDebugUnitTest :app:assembleRelease :app:assembleDebug :app:assembleDebugAndroidTest --no-daemon
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs app/build/outputs/apk/release/app-release.apk
       - name: Prepare installable APK
         run: cp android/app/build/outputs/apk/release/app-release.apk purrch.apk
